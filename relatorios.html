@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - SOS Proteção</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">SOS Proteção</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="denunciar.html">Denunciar</a></li>
+                    <li><a href="acompanhar.html">Acompanhar</a></li>
+                    <li><a href="relatorios.html">Relatórios</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1 style="margin-bottom: 24px;">Relatórios e Estatísticas</h1>
+        
+        <div class="tabs">
+            <button class="tab active" data-tab="resumo">Resumo Geral</button>
+            <button class="tab" data-tab="tipos">Por Tipo</button>
+            <button class="tab" data-tab="tempo">Tempo de Resolução</button>
+            <button class="tab" data-tab="localizacao">Por Localização</button>
+        </div>
+        
+        <div class="card tab-content active" id="resumo">
+            <h2>Resumo Geral de Denúncias</h2>
+            <div id="total-resumo">
+                <div class="loading">Carregando dados...</div>
+            </div>
+            
+            <div style="margin-top: 30px;">
+                <h3>Por Status</h3>
+                <div id="grafico-status" style="height: 250px; margin-top: 20px; display: flex; align-items: flex-end;">
+                    <!-- As barras do gráfico serão geradas via JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="card tab-content" id="tipos">
+            <h2>Denúncias por Tipo de Vulnerabilidade</h2>
+            <div id="grafico-tipos" style="height: 300px; margin-top: 20px;">
+                <!-- O gráfico será gerado via JavaScript -->
+            </div>
+            
+            <table id="tabela-tipos" style="margin-top: 30px;">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Quantidade</th>
+                        <th>Percentual</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- A tabela será preenchida via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="card tab-content" id="tempo">
+            <h2>Tempo Médio de Resolução</h2>
+            <div id="grafico-tempo" style="height: 250px; margin-top: 20px;">
+                <!-- O gráfico será gerado via JavaScript -->
+            </div>
+            
+            <div style="margin-top: 30px;">
+                <h3>Métricas de Tempo</h3>
+                <table id="tabela-metricas">
+                    <thead>
+                        <tr>
+                            <th>Métrica</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Tempo médio até primeira análise</td>
+                            <td id="tempo-primeira-analise">Carregando...</td>
+                        </tr>
+                        <tr>
+                            <td>Tempo médio até conclusão</td>
+                            <td id="tempo-conclusao">Carregando...</td>
+                        </tr>
+                        <tr>
+                            <td>Denúncias pendentes há mais de 7 dias</td>
+                            <td id="pendentes-7dias">Carregando...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="card tab-content" id="localizacao">
+            <h2>Denúncias por Localização</h2>
+            <div id="mapa-calor" style="height: 400px; margin-top: 20px; background-color: #f5f5f5; display: flex; justify-content: center; align-items: center;">
+                <p>Mapa de calor das denúncias por região</p>
+                <p style="font-style: italic; margin-top: 10px; color: #666;">Visualização completa disponível apenas no sistema administrativo</p>
+            </div>
+            
+            <table id="tabela-regioes" style="margin-top: 30px;">
+                <thead>
+                    <tr>
+                        <th>Região</th>
+                        <th>Quantidade</th>
+                        <th>Percentual</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- A tabela será preenchida via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <p>© 2025 SOS Proteção - Todos os direitos reservados</p>
+            <p>Sistema de Denúncias para Proteção de Vulneráveis</p>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/relatorios.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acompanhar Denúncia - SOS Proteção</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">SOS Proteção</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="denunciar.html">Denunciar</a></li>
+                    <li><a href="acompanhar.html">Acompanhar</a></li>
+                    <li><a href="relatorios.html">Relatórios</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1 style="margin-bottom: 24px;">Acompanhar Denúncia</h1>
+        
+        <div class="card">
+            <form id="consultarForm">
+                <div class="form-group">
+                    <label for="protocolo">Número de Protocolo:</label>
+                    <input type="text" id="protocolo" placeholder="Insira o número de protocolo" required>
+                </div>
+                
+                <button type="button" class="btn" id="consultar-denuncia">Consultar</button>
+            </form>
+        </div>
+        
+        <div id="resultado-consulta" class="card hidden">
+            <h2>Informações da Denúncia</h2>
+            <table>
+                <tr>
+                    <th>Protocolo:</th>
+                    <td id="protocolo-resultado"></td>
+                </tr>
+                <tr>
+                    <th>Tipo:</th>
+                    <td id="tipo-resultado"></td>
+                </tr>
+                <tr>
+                    <th>Data de Registro:</th>
+                    <td id="data-registro-resultado"></td>
+                </tr>
+                <tr>
+                    <th>Status:</th>
+                    <td id="status-resultado"></td>
+                </tr>
+                <tr>
+                    <th>Última Atualização:</th>
+                    <td id="ultima-atualizacao-resultado"></td>
+                </tr>
+            </table>
+            
+            <div style="margin-top: 20px;">
+                <h3>Histórico</h3>
+                <ul id="historico-lista" style="list-style: none; padding: 0;">
+                    <!-- O histórico será preenchido via JavaScript -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <p>© 2025 SOS Proteção - Todos os direitos reservados</p>
+            <p>Sistema de Denúncias para Proteção de Vulneráveis</p>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/acompanhar.js"></script>
+</body>
+</html>
