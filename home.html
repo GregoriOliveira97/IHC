@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Denúncias</title>
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #0d47a1;
+            --secondary: #f8f9fa;
+            --danger: #e53935;
+            --success: #43a047;
+            --warning: #fdd835;
+            --text: #333;
+            --text-light: #757575;
+            --border: #e0e0e0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 16px 0;
+            position: relative;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e8e8e8;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+        }
+        
+        .btn-danger:hover {
+            background-color: #c62828;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 60px 0;
+            background-color: var(--primary);
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .feature-card {
+            flex-basis: calc(33.333% - 20px);
+            text-align: center;
+            padding: 24px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 12px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input {
+            width: auto;
+            margin-right: 8px;
+        }
+        
+        .confirmation {
+            text-align: center;
+            padding: 40px 0;
+        }
+        
+        .confirmation-icon {
+            font-size: 60px;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+        
+        .protocol {
+            font-size: 24px;
+            background-color: #f5f5f5;
+            padding: 10px 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+            display: inline-block;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        th {
+            background-color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        .status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background-color: #FFF3E0;
+            color: #E65100;
+        }
+        
+        .status-processing {
+            background-color: #E3F2FD;
+            color: #0D47A1;
+        }
+        
+        .status-resolved {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background-color: white;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            background-color: white;
+            border: none;
+            flex-grow: 1;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+        
+        .tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .footer {
+            background-color: white;
+            padding: 30px 0;
+            margin-top: 60px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-light);
+        }
+        
+        @media (max-width: 768px) {
+            .feature-card {
+                flex-basis: 100%;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 16px;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">SOS Proteção</div>
+            <nav>
+                <ul>
+                    <li><a href="#home" class="nav-link active" data-page="home">Início</a></li>
+                    <li><a href="#denunciar" class="nav-link" data-page="denunciar">Denunciar</a></li>
+                    <li><a href="#acompanhar" class="nav-link" data-page="acompanhar">Acompanhar</a></li>
+                    <li><a href="#relatorios" class="nav-link" data-page="relatorios">Relatórios</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Página Inicial -->
+    <div id="home" class="page active">
+        <div class="hero">
+            <div class="container">
+                <h1>Proteja quem precisa de ajuda</h1>
+                <p>Faça denúncias de forma segura e acompanhe o andamento das investigações. Sua ação pode mudar a vida de alguém.</p>
+                <button class="btn btn-page" data-page="denunciar">Fazer uma denúncia</button>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>Fazer Denúncia</h3>
+                    <p>Registre situações de vulnerabilidade para que as autoridades possam agir rapidamente.</p>
+                    <button class="btn btn-page" data-page="denunciar">Denunciar</button>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Acompanhar Denúncia</h3>
+                    <p>Verifique o status e andamento da sua denúncia usando o número de protocolo.</p>
+                    <button class="btn btn-page" data-page="acompanhar">Acompanhar</button>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Relatórios</h3>
+                    <p>Para gestores: acesse estatísticas e relatórios sobre as denúncias recebidas.</p>
+                    <button class="btn btn-page" data-page="relatorios">Relatórios</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Sobre o Sistema</h2>
+                <p>O SOS Proteção é um canal seguro para denúncias de vulnerabilidades sociais. Nosso objetivo é facilitar o registro de ocorrências e agilizar o encaminhamento aos órgãos competentes.</p>
+                <ul style="margin-top: 16px; padding-left: 20px;">
+                    <li>Todas as denúncias são tratadas com seriedade e confidencialidade</li>
+                    <li>Você pode optar por denúncias anônimas</li>
+                    <li>O sistema é monitorado por profissionais especializados</li>
+                    <li>O acompanhamento é transparente e acessível</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Página de Denúncia -->
+    <div id="denunciar" class="page hidden">
+        <div class="container">
+            <h1 style="margin-bottom: 24px;">Registrar Denúncia</h1>
+            
+            <div class="card">
+                <form id="denunciaForm">
+                    <div class="form-group">
+                        <label>Tipo de Denúncia:</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="anonima" name="tipo-denuncia" value="anonima" checked>
+                                <label for="anonima">Anônima</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="identificada" name="tipo-denuncia" value="identificada">
+                                <label for="identificada">Identificada</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="dados-denunciante" class="hidden">
+                        <div class="form-group">
+                            <label for="nome">Nome Completo:</label>
+                            <input type="text" id="nome" placeholder="Seu nome completo">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contato">Contato:</label>
+                            <input type="text" id="contato" placeholder="Telefone ou e-mail">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tipo-vulnerabilidade">Tipo de Vulnerabilidade:</label>
+                        <select id="tipo-vulnerabilidade" required>
+                            <option value="">Selecione o tipo</option>
+                            <option value="abuso">Abuso físico ou psicológico</option>
+                            <option value="negligencia">Negligência</option>
+                            <option value="trabalho-infantil">Trabalho infantil</option>
+                            <option value="abandono">Abandono</option>
+                            <option value="violencia-domestica">Violência doméstica</option>
+                            <option value="outro">Outro (especificar)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group hidden" id="outro-tipo">
+                        <label for="outro-especificar">Especifique o tipo:</label>
+                        <input type="text" id="outro-especificar" placeholder="Descreva o tipo de vulnerabilidade">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="descricao">Descrição do Ocorrido:</label>
+                        <textarea id="descricao" placeholder="Descreva a situação em detalhes, incluindo o que aconteceu, quando e como" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="localizacao">Localização:</label>
+                        <input type="text" id="localizacao" placeholder="Endereço ou referência do local" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="data-ocorrencia">Data da Ocorrência:</label>
+                        <input type="date" id="data-ocorrencia" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hora-ocorrencia">Hora Aproximada:</label>
+                        <input type="time" id="hora-ocorrencia">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="informacoes-extras">Informações Extras (opcional):</label>
+                        <textarea id="informacoes-extras" placeholder="Informações adicionais que possam ser relevantes"></textarea>
+                    </div>
+                    
+                    <button type="button" class="btn" id="enviar-denuncia">Enviar Denúncia</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Página de Confirmação de Denúncia -->
+    <div id="confirmacao" class="page hidden">
+        <div class="container">
+            <div class="confirmation">
+                <div class="confirmation-icon">✓</div>
+                <h1>Denúncia Registrada com Sucesso!</h1>
+                <p>Sua denúncia foi registrada e será analisada pelos responsáveis o mais breve possível.</p>
+                
+                <h2>Seu Número de Protocolo</h2>
+                <div class="protocol">2025-0357-9128</div>
+                
+                <p><strong>Importante:</strong> Guarde este número para acompanhar o status da sua denúncia.</p>
+                
+                <button class="btn btn-page" data-page="acompanhar">Acompanhar Denúncia</button>
+                <button class="btn btn-secondary btn-page" data-page="home" style="margin-left: 10px;">Voltar ao Início</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Página de Acompanhar Denúncia -->
+    <div id="acompanhar" class="page hidden">
+        <div class="container">
+            <h1 style="margin-bottom: 24px;">Acompanhar Denúncia</h1>
+            
+            <div class="card">
+                <form id="consultarForm">
+                    <div class="form-group">
+                        <label for="protocolo">Número de Protocolo:</label>
+                        <input type="text" id="protocolo" placeholder="Insira o número de protocolo" required>
+                    </div>
+                    
+                    <button type="button" class="btn" id="consultar-denuncia">Consultar</button>
+                </form>
+            </div>
+            
+            <div id="resultado-consulta" class="card hidden">
+                <h2>Informações da Denúncia</h2>
+                <table>
+                    <tr>
+                        <th>Protocolo:</th>
+                        <td>2025-0357-9128</td>
+                    </tr>
+                    <tr>
+                        <th>Tipo:</th>
+                        <td>Negligência</td>
+                    </tr>
+                    <tr>
+                        <th>Data de Registro:</th>
+                        <td>01/03/2025</td>
+                    </tr>
+                    <tr>
+                        <th>Status:</th>
+                        <td><span class="status status-processing">Em análise</span></td>
+                    </tr>
+                    <tr>
+                        <th>Última Atualização:</th>
+                        <td>01/03/2025 - 14:30</td>
+                    </tr>
+                </table>
+                
+                <div style="margin-top: 20px;">
+                    <h3>Histórico</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                            <strong>01/03/2025 - 14:30</strong>: Denúncia encaminhada para análise inicial.
+                        </li>
+                        <li style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                            <strong>01/03/2025 - 14:25</strong>: Denúncia registrada no sistema.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Página de Relatórios -->
+    <div id="relatorios" class="page hidden">
+        <div class="container">
+            <h1 style="margin-bottom: 24px;">Relatórios</h1>
+            <p style="margin-bottom: 24px;">Acesso restrito a gestores. Utilize os filtros abaixo para gerar relatórios personalizados.</p>
+            
+            <div class="card">
+                <div class="tabs">
+                    <button class="tab active" data-tab="filtros">Filtros</button>
+                    <button class="tab" data-tab="resultados">Resultados</button>
+                    <button class="tab" data-tab="graficos">Gráficos</button>
+                </div>
+                
+                <div class="tab-content active" id="filtros">
+                    <form id="relatorioForm">
+                        <div class="form-group">
+                            <label for="periodo">Período:</label>
+                            <select id="periodo">
+                                <option value="7">Últimos 7 dias</option>
+                                <option value="30" selected>Últimos 30 dias</option>
+                                <option value="90">Últimos 90 dias</option>
+                                <option value="365">Último ano</option>
+                                <option value="custom">Período personalizado</option>
+                            </select>
+                        </div>
+                        
+                        <div id="periodo-custom" class="hidden">
+                            <div class="form-group">
+                                <label for="data-inicio">Data Inicial:</label>
+                                <input type="date" id="data-inicio">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="data-fim">Data Final:</label>
+                                <input type="date" id="data-fim">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tipo-vulnerabilidade-relatorio">Tipo de Vulnerabilidade:</label>
+                            <select id="tipo-vulnerabilidade-relatorio">
+                                <option value="todos" selected>Todos os tipos</option>
+                                <option value="abuso">Abuso físico ou psicológico</option>
+                                <option value="negligencia">Negligência</option>
+                                <option value="trabalho-infantil">Trabalho infantil</option>
+                                <option value="abandono">Abandono</option>
+                                <option value="violencia-domestica">Violência doméstica</option>
+                                <option value="outro">Outros</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="status-relatorio">Status:</label>
+                            <select id="status-relatorio">
+                                <option value="todos" selected>Todos os status</option>
+                                <option value="registrada">Registrada</option>
+                                <option value="analise">Em análise</option>
+                                <option value="encaminhada">Encaminhada</option>
+                                <option value="verificacao">Em verificação</option>
+                                <option value="concluida">Concluída</option>
+                                <option value="arquivada">Arquivada</option>
+                            </select>
+                        </div>
+                        
+                        <button type="button" class="btn" id="gerar-relatorio">Gerar Relatório</button>
+                    </form>
+                </div>
+                
+                <div class="tab-content" id="resultados">
+                    <div style="margin-bottom: 20px;">
+                        <h2>Resumo do Relatório</h2>
+                        <p><strong>Período:</strong> 01/02/2025 a 01/03/2025</p>
+                        <p><strong>Total de denúncias:</strong> 143</p>
+                        <p><strong>Tipo de vulnerabilidade:</strong> Todos</p>
+                        <p><strong>Status:</strong> Todos</p>
+                    </div>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Protocolo</th>
+                                <th>Data</th>
+                                <th>Tipo</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2025-0357-9128</td>
+                                <td>01/03/2025</td>
+                                <td>Negligência</td>
+                                <td><span class="status status-processing">Em análise</span></td>
+                                <td><button class="btn btn-secondary">Detalhes</button></td>
+                            </tr>
+                            <tr>
+                                <td>2025-0356-7412</td>
+                                <td>28/02/2025</td>
+                                <td>Abuso físico</td>
+                                <td><span class="status status-processing">Encaminhada</span></td>
+                                <td><button class="btn btn-secondary">Detalhes</button></td>
+                            </tr>
+                            <tr>
+                                <td>2025-0355-3691</td>
+                                <td>25/02/2025</td>
+                                <td>Trabalho infantil</td>
+                                <td><span class="status status-resolved">Concluída</span></td>
+                                <td><button class="btn btn-secondary">Detalhes</button></td>
+                            </tr>
+                            <tr>
+                                <td>2025-0354-1852</td>
+                                <td>20/02/2025</td>
+                                <td>Abandono</td>
+                                <td><span class="status status-pending">Verificação</span></td>
+                                <td><button class="btn btn-secondary">Detalhes</button></td>
+                            </tr>
+                            <tr>
+                                <td>2025-0353-7426</td>
+                                <td>15/02/2025</td>
+                                <td>Negligência</td>
+                                <td><span class="status status-resolved">Concluída</span></td>
+                                <td><button class="btn btn-secondary">Detalhes</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div style="margin-top: 20px; text-align: center;">
+                        <button class="btn">Exportar PDF</button>
+                        <button class="btn btn-secondary" style="margin-left: 10px;">Exportar Excel</button>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="graficos">
+                    <div style="text-align: center; padding: 40px 0;">
+                        <h3>Denúncias por Tipo de Vulnerabilidade</h3>
+                        <div style="height: 250px; background-color: #f5f5f5; border-radius: 4px; margin-bottom: 30px; display: flex; align-items: center; justify-content: center;">
+                            <img src="/api/placeholder/600/250" alt="Gráfico de barras - Denúncias por tipo" />
+                        </div>
+                        
+                        <h3>Status das Denúncias</h3>
+                        <div style="height: 250px; background-color: #f5f5f5; border-radius: 4px; margin-bottom: 30px; display: flex; align-items: center; justify-content: center;">
+                            <img src="/api/placeholder/600/250" alt="Gráfico de pizza - Status das denúncias" />
+                        </div>
+                        
+                        <h3>Evolução de Denúncias ao Longo do Tempo</h3>
+                        <div style="height: 250px; background-color: #f5f5f5; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                            <img src="/api/placeholder/600/250" alt="Gráfico de linha - Evolução de denúncias" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <p>© 2025 SOS Proteção - Todos os direitos reservados</p>
+            <p>Sistema de Denúncias para Proteção de Vulneráveis</p>
+        </div>
+    </div>
+
+    <script>
+        // Navegação entre páginas
+        document.querySelectorAll('.nav-link, .btn-page').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetPage = this.getAttribute('data-page');
+                
+                // Se for para a página de confirmação a partir da denúncia
+                if (this.id === 'enviar-denuncia') {
+                    showPage('confirmacao');
+                    return;
+                }
+                
+                // Se for para mostrar o resultado da consulta
+                if (this.id === 'consultar-denuncia') {
+                    document.getElementById('resultado-consulta').classList.remove('hidden');
+                    return;
+                }
+                
+                // Se for para gerar o relatório
+                if (this.id === 'gerar-relatorio') {
+                    document.querySelector('.tab[data-tab="resultados"]').click();
+                    return;
+                }
+                
+                showPage(targetPage);
+            });
+        });
+        
+        // Função para mostrar a página correta
+        function showPage(pageId) {
+            // Esconde todas as páginas
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            // Mostra a página solicitada
+            document.getElementById(pageId).classList.remove('hidden');
+            
+            // Atualiza a navegação
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        // Toggle para mostrar dados do denunciante
+        document.querySelectorAll('input[name="tipo-denuncia"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const dadosDenunciante = document.getElementById('dados-denunciante');
+                if (this.value === 'identificada') {
+                    dadosDenunciante.classList.remove('hidden');
+                } else {
+                    dadosDenunciante.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Toggle para mostrar campo "outro tipo"
+        document.getElementById('tipo-vulnerabilidade').addEventListener('change', function() {
+            const outroTipo = document.getElementById('outro-tipo');
+            if (this.value === 'outro') {
+                outroTipo.classList.remove('hidden');
+            } else {
+                outroTipo.classList.add('hidden');
+            }
+        });
+        
+        // Toggle para mostrar período personalizado
+        document.getElementById('periodo').addEventListener('change', function
