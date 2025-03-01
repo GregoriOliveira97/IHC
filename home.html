@@ -711,8 +711,8 @@
     </div>
 
     <script>
-        // Navegação entre páginas
-        document.querySelectorAll('.nav-link, .btn-page').forEach(link => {
+              // Navegação entre páginas
+              document.querySelectorAll('.nav-link, .btn-page').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const targetPage = this.getAttribute('data-page');
@@ -756,6 +756,12 @@
                     link.classList.add('active');
                 }
             });
+            
+            // Scroll para o topo
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
         
         // Toggle para mostrar dados do denunciante
@@ -770,8 +776,8 @@
             });
         });
         
-        // Toggle para mostrar campo "outro tipo"
-        document.getElementById('tipo-vulnerabilidade').addEventListener('change', function() {
+       // Toggle para mostrar campo "outro tipo"
+       document.getElementById('tipo-vulnerabilidade').addEventListener('change', function() {
             const outroTipo = document.getElementById('outro-tipo');
             if (this.value === 'outro') {
                 outroTipo.classList.remove('hidden');
@@ -780,5 +786,172 @@
             }
         });
         
-        // Toggle para mostrar período personalizado
-        document.getElementById('periodo').addEventListener('change', function
+        // Toggle para período personalizado nos relatórios
+        document.getElementById('periodo').addEventListener('change', function() {
+            const periodoCustom = document.getElementById('periodo-custom');
+            if (this.value === 'custom') {
+                periodoCustom.classList.remove('hidden');
+            } else {
+                periodoCustom.classList.add('hidden');
+            }
+        });
+        
+        // Navegação entre tabs nos relatórios
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove a classe active de todas as tabs
+                document.querySelectorAll('.tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                
+                // Adiciona a classe active na tab clicada
+                this.classList.add('active');
+                
+                // Esconde todos os conteúdos de tabs
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Mostra o conteúdo da tab clicada
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Geração de número de protocolo aleatório
+        function gerarProtocolo() {
+            const ano = new Date().getFullYear();
+            const num1 = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            const num2 = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            return `${ano}-${num1}-${num2}`;
+        }
+        
+        // Atualiza o protocolo na página de confirmação
+        document.getElementById('enviar-denuncia').addEventListener('click', function() {
+            // Validação básica do formulário
+            const descricao = document.getElementById('descricao').value;
+            const localizacao = document.getElementById('localizacao').value;
+            const dataOcorrencia = document.getElementById('data-ocorrencia').value;
+            
+            if (!descricao || !localizacao || !dataOcorrencia) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            
+            // Gera um novo protocolo e atualiza na página
+            const novoProtocolo = gerarProtocolo();
+            document.querySelector('.protocol').textContent = novoProtocolo;
+            
+            // Mostra a página de confirmação
+            showPage('confirmacao');
+        });
+        
+        // Simulação da consulta de protocolo
+        document.getElementById('consultar-denuncia').addEventListener('click', function() {
+            const protocolo = document.getElementById('protocolo').value;
+            
+            if (!protocolo) {
+                alert('Por favor, insira um número de protocolo.');
+                return;
+            }
+            
+            // Atualiza os dados da consulta com o protocolo fornecido
+            const resultadoConsulta = document.getElementById('resultado-consulta');
+            resultadoConsulta.querySelector('table tr:first-child td').textContent = protocolo;
+            
+            // Mostra o resultado da consulta
+            resultadoConsulta.classList.remove('hidden');
+            
+            // Scroll para o resultado
+            resultadoConsulta.scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+        
+        // Geração do relatório
+        document.getElementById('gerar-relatorio').addEventListener('click', function() {
+            // Coleta os dados dos filtros
+            const periodo = document.getElementById('periodo').value;
+            const tipoVulnerabilidade = document.getElementById('tipo-vulnerabilidade-relatorio').value;
+            const status = document.getElementById('status-relatorio').value;
+            
+            // Prepara as datas para o resumo do relatório
+            let dataInicio, dataFim;
+            const hoje = new Date();
+            
+            if (periodo === 'custom') {
+                dataInicio = document.getElementById('data-inicio').value;
+                dataFim = document.getElementById('data-fim').value;
+                
+                if (!dataInicio || !dataFim) {
+                    alert('Por favor, selecione o período personalizado completo.');
+                    return;
+                }
+            } else {
+                dataFim = formatarData(hoje);
+                dataInicio = formatarData(new Date(hoje.setDate(hoje.getDate() - parseInt(periodo))));
+            }
+            
+            // Atualiza o resumo do relatório
+            const resumoRelatorio = document.querySelector('#resultados div:first-child');
+            resumoRelatorio.querySelector('p:first-child strong').nextSibling.textContent = ` ${dataInicio} a ${dataFim}`;
+            
+            // Atualiza o nome do tipo de vulnerabilidade
+            let tipoTexto = 'Todos';
+            if (tipoVulnerabilidade !== 'todos') {
+                tipoTexto = document.getElementById('tipo-vulnerabilidade-relatorio').options[
+                    document.getElementById('tipo-vulnerabilidade-relatorio').selectedIndex
+                ].text;
+            }
+            resumoRelatorio.querySelector('p:nth-child(3) strong').nextSibling.textContent = ` ${tipoTexto}`;
+            
+            // Atualiza o status
+            let statusTexto = 'Todos';
+            if (status !== 'todos') {
+                statusTexto = document.getElementById('status-relatorio').options[
+                    document.getElementById('status-relatorio').selectedIndex
+                ].text;
+            }
+            resumoRelatorio.querySelector('p:nth-child(4) strong').nextSibling.textContent = ` ${statusTexto}`;
+            
+            // Muda para a tab de resultados
+            document.querySelector('.tab[data-tab="resultados"]').click();
+        });
+        
+        // Função auxiliar para formatar datas
+        function formatarData(data) {
+            const dia = data.getDate().toString().padStart(2, '0');
+            const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+            const ano = data.getFullYear();
+            return `${dia}/${mes}/${ano}`;
+        }
+        
+        // Inicialização: data atual no campo de data da ocorrência
+        document.addEventListener('DOMContentLoaded', function() {
+            const hoje = new Date();
+            const dataFormatada = hoje.toISOString().split('T')[0];
+            document.getElementById('data-ocorrencia').value = dataFormatada;
+            
+            // Inicializa os campos de período personalizado
+            document.getElementById('data-fim').value = dataFormatada;
+            
+            const umMesAtras = new Date();
+            umMesAtras.setMonth(hoje.getMonth() - 1);
+            document.getElementById('data-inicio').value = umMesAtras.toISOString().split('T')[0];
+        });
+        
+        // Função para exportar relatórios (simulação)
+        document.querySelectorAll('#resultados .btn').forEach(button => {
+            button.addEventListener('click', function() {
+                alert('Funcionalidade de exportação em implementação. Em breve estará disponível!');
+            });
+        });
+        
+        // Função para mostrar detalhes da denúncia (simulação)
+        document.querySelectorAll('#resultados table button').forEach(button => {
+            button.addEventListener('click', function() {
+                const protocolo = this.closest('tr').querySelector('td:first-child').textContent;
+                alert(`Detalhes da denúncia ${protocolo} serão exibidos em uma janela modal (em implementação).`);
+            });
+        });
+    </script>
