@@ -234,23 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('tempo-conclusao').textContent = `${dados.tempoConclusao} dias`;
         document.getElementById('pendentes-7dias').textContent = `${dados.pendentes7dias} denúncias`;
         
-        // Tabela de Regiões
-        const tabelaRegioes = document.getElementById('tabela-regioes').querySelector('tbody');
-        tabelaRegioes.innerHTML = '';
-        
-        Object.keys(dados.porRegiao).forEach(regiao => {
-            const quantidade = dados.porRegiao[regiao];
-            const porcentagem = (quantidade / totalDenuncias * 100).toFixed(1);
-            
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${regiao}</td>
-                <td>${quantidade}</td>
-                <td>${porcentagem}%</td>
-            `;
-            
-            tabelaRegioes.appendChild(tr);
-        });
+       
     }
     
     // Carrega os dados ao inicializar
